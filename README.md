@@ -11,7 +11,7 @@ cp ~/.ssh/id_rsa.pub .
 # On each build, the container will generate a new ssh key, which means you'll
 # get an ssh warning each time. To avoid it, the build process will copy
 # ssh_host_* to the container's /etc/ssh/ ; we need to put them here first.
-cp /etc/ssh/ssh_host_* .
+sudo cp /etc/ssh/ssh_host_* .
 sudo chown `id -un`:`id -gn` ssh_host_*
 
 # In the below command, set USER to either gitosis or git,
