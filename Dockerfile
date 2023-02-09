@@ -3,6 +3,7 @@ RUN apt-get update && apt upgrade -y && apt-get install -y git python python-set
 RUN git clone https://github.com/tv42/gitosis.git
 WORKDIR /gitosis
 COPY id_rsa.pub .
+COPY ssh_host_* /etc/ssh/
 RUN python setup.py install
 
 ARG HOST_UID
