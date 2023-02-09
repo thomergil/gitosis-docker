@@ -8,6 +8,12 @@ If you have a legacy [gitosis](https://github.com/tv42/gitosis) install going th
 # Copy your public ssh key to the current directory
 cp ~/.ssh/id_rsa.pub .
 
+# On each build, the container will generate a new ssh key, which means you'll
+# get an ssh warning each time. To avoid it, the build process will copy
+# ssh_host_* to the container's /etc/ssh/ ; we need to put them here first.
+cp /etc/ssh/ssh_host_* .
+sudo chown `id -un`:`id -gn` ssh_host_*
+
 # In the below command, set USER to either gitosis or git,
 # depending on whether you want to clone is git@ or gitosis@
 # The default is gitosis.
@@ -16,6 +22,9 @@ cp ~/.ssh/id_rsa.pub .
 # and the container have the same uid/gid for user gitosis; otherwise
 # the docker container cannot read/write the mapped directory
 docker build --build-arg USER=gitosis --build-arg HOST_UID=`id -u gitosis` --build-arg HOST_GID=`id -g gitosis`  -t gitosis .
+
+# You should remove the ssh keys when you're done
+rm ./ssh_host_*
 ```
 
 ## Run
